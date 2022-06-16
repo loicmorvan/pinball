@@ -44,8 +44,17 @@ And we already know:
 - positions $\overrightarrow{x_N}$ and $\overrightarrow{x_{N+1}}$.
 
 1. Virtually move the ball to the collision point $t_c$, it gives the new position:
-  $$ \overrightarrow{x_c}=\overrightarrow{p_c}+r\times \overrightarrow{n_c} $$
-2. "Mirror" the speed $\overrightarrow{s_{N+1}}$ on the surface with the normal $\overrightarrow{n_c}$:
-  $$ \overrightarrow{s_{N+1}}=TODO $$
-3. Finish the Euler method:
-  $$ \overrightarrow{x_{N+1}}=\overrightarrow{x_c}+(t_{N+1}-t_c)\overrightarrow{s_{N+1}} $$
+   $$ \overrightarrow{x_c}=\overrightarrow{p_c}+r\times \overrightarrow{n_c} $$
+2. Compute a tangent on the surface:
+   $$ \overrightarrow{t_c}=[-n_c^y;n_c^x] $$
+   We may have taken the opposite, it's just an arbitrary choice.
+3. "Mirror" the speed $\overrightarrow{s_{N+1}}$ on the surface, keeping the tengential component, but opposing the normal one:
+   $$ \overrightarrow{s_{N+1}}=C(\overrightarrow{s_{N+1}}.t_c\times t_c - \overrightarrow{s_{N+1}}.n_c\times n_c) $$
+4. Finish the Euler method:
+   $$ \overrightarrow{x_{N+1}}=\overrightarrow{x_c}+(t_{N+1}-t_c)\overrightarrow{s_{N+1}} $$
+
+## After the collision
+
+After the collision, the ball can reach another surface, it may be interesting to redo the process again, multiple times until convergence.
+
+This does not treat the friction (yet!).
