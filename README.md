@@ -36,7 +36,7 @@ The collision detection algorithms should provide multiple data:
 - collision or not;
 - time of collision, $t_c$;
 - point of collision, $\overrightarrow{p_c}$;
-- normal of the surface at collision point, $\overrightarrow{n_c}$;
+- normal of the surface at collision point, $\overrightarrow{n_c}$ with $||\overrightarrow{n_c}||=1$;
 - restitution coefficient of the surface at collision point, $C$.
 
 And we already know:
