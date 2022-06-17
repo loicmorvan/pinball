@@ -18,9 +18,9 @@ We want to compute the position $\overrightarrow{x_{N+1}}$ at time $t_{N+1}$, us
 
 $$ E1: \overrightarrow{a_{N+1}}=\vec{g}(\overrightarrow{x_N}) $$
 
-$$ E2: \overrightarrow{s_{N + 1}} = \overrightarrow{s_N}+ \Delta t \times \overrightarrow{a_{N + 1}} $$
+$$ E2: \overrightarrow{s_{N + 1}} = \overrightarrow{s_N} + \Delta t \times \overrightarrow{a_{N + 1}} $$
 
-$$ E3: \overrightarrow{x_{N+1}} = \overrightarrow{x_N} +  \Delta t \times \overrightarrow{s_{N+1}} $$
+$$ E3: \overrightarrow{x_{N+1}} = \overrightarrow{x_N} + \Delta t \times \overrightarrow{s_{N+1}} $$
 
 ## Collision detection
 
@@ -30,7 +30,7 @@ If a collision is detected, then the speed $\overrightarrow{s_{N+1}}$ and the po
 
 > TODO: collision detection between a disk with a given radius and different kinds of surfaces (flat, curves, other disks, ellipsis, etc.).
 
-## Continous collisions
+## Continuous collisions
 
 The collision detection algorithms should provide multiple data:
 - collision or not;
@@ -49,7 +49,7 @@ And we already know:
    $$ \overrightarrow{t_c}=[-n_c^y;n_c^x] $$
    We may have taken the opposite, it's just an arbitrary choice.
 3. "Mirror" the speed $\overrightarrow{s_{N+1}}$ on the surface, keeping the tengential component, but opposing the normal one:
-   $$ \overrightarrow{s_{N+1}}=C(\overrightarrow{s_{N+1}}.t_c\times t_c - \overrightarrow{s_{N+1}}.n_c\times n_c) $$
+   $$ \overrightarrow{s_{N+1}}=C(\overrightarrow{s_{N+1}}.\overrightarrow{t_c}\times \overrightarrow{t_c} - \overrightarrow{s_{N+1}}.\overrightarrow{n_c}\times \overrightarrow{n_c}) $$
 4. Finish the Euler method:
    $$ \overrightarrow{x_{N+1}}=\overrightarrow{x_c}+(t_{N+1}-t_c)\overrightarrow{s_{N+1}} $$
 
