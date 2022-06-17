@@ -30,6 +30,8 @@ If a collision is detected, then the speed $\overrightarrow{s_{N+1}}$ and the po
 
 > TODO: collision detection between a disk with a given radius and different kinds of surfaces (flat, curves, other disks, ellipsis, etc.).
 
+### Disk against edge
+
 ## Continuous collisions
 
 The collision detection algorithms should provide multiple data:
