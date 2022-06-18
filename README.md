@@ -30,7 +30,24 @@ If a collision is detected, then the speed $\overrightarrow{s_{N+1}}$ and the po
 
 > TODO: collision detection between a disk with a given radius and different kinds of surfaces (flat, curves, other disks, ellipsis, etc.).
 
-### Disk against edge
+### Ball against a point
+
+Given:
+- the ball, radius $r_B$, position $\overrightarrow{x}$, speed $\overrightarrow{s}$;
+- the point $\vec{p}$.
+
+Algorithm:
+1. Normalize the speed: $$ \vec{n}=\frac{\vec{s}}{||\vec{s}||} $$
+1. Recenter the point into the ball's frame: $$ \vec{p_B}=\vec{p}-\vec{x} $$
+1. If $$ \vec{p_B}\cdot\vec{n} < 0 $$ then the ball is moving away from that point and there couldn't be any collision
+1. Optim: If projection of the point to the displacement > radius, no collision
+1. Compute the tangent, in order to have the complete ball's frame: $$ \vec{t}=[-\vec{n}_y; \vec{n}_x] $$
+1. Compute the projection of the point to the tangent: $$ \vec{c_B}_x=\vec{p_B}\cdot\vec{t} $$.
+1. Compute the projection of $\vec{c_B}$ to $\vec{n}$: $$ \vec{c_B}_y=\sqrt{{r_B}^4-{\vec{c_B}_x}^2} $$
+1. Compute distance to point along the speed vector: $$ d=||\vec{p_B}-\vec{c_B}|| $$
+1. If $$ d \le \Delta t||\vec{s}|| $$ then there will be collision.
+1. Compute time before contact: $$ \delta t=\Delta t\times\frac{\Delta t\times||\vec{s}||}{d} $$
+1. Compute the normal of contact: $$ \vec{n_c}=-\frac{c_B}{||c_B||} $$
 
 ## Continuous collisions
 
