@@ -1,7 +1,5 @@
 namespace Pinball;
 
-public record struct Collision(decimal TimeToCollision, Vector CollisionPoint, Vector ColliderNormal);
-
 public class Board
 {
     // For now, gravity is constant, but should be dependent upon Ball.Position.
@@ -46,6 +44,6 @@ public class Board
 
         var N = -xc.Normalize();
 
-        return new Collision(dtc, Ball.Position + xc, N);
+        return new Collision(dtc, p, N);
     }
 }
