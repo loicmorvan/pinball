@@ -18,7 +18,7 @@ public class BoardTests
     [Fact]
     public void Test()
     {
-        var sut = new Ball(0, new Vector(0, 1), 0, 0.25m);
+        var sut = new Ball(new Vector(0, 1), 0, 0.25m);
 
         var result = Board.DetectCollisionWithPoint(sut, 1, new Vector(0, 0.5m));
 

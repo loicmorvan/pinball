@@ -5,19 +5,19 @@ public class Board
     // For now, gravity is constant, but should be dependent upon Ball.Position.
     public Vector g { get; set; } = new(0, -10);
 
-    public Ball Ball { get; set; } = new Ball(0, 0, 0, 0.25m);
+    public Ball Ball { get; set; } = new Ball(0, 0, 0.25m);
 
     public Vector[] PointColliders { get; set; } = Array.Empty<Vector>();
 
     public void Step(decimal Δt)
     {
-        var (a, s, x, r) = Ball;
+        var (s, x, r) = Ball;
 
-        a = g;
+        var a = g;
         s += Δt * a;
         x += Δt * s;
 
-        Ball = new(a, s, x, r);
+        Ball = new(s, x, r);
 
         foreach (var p in PointColliders)
         {
@@ -62,7 +62,7 @@ public class Board
 
     public static Ball ResolveCollision(Ball ball, decimal Δt, Collision collision)
     {
-        var (_, s, x, r) = ball;
+        var (s, x, r) = ball;
         var (δt, p, N) = collision;
         var C = 1;
 

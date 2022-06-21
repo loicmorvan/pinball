@@ -1,2 +1,2 @@
 ﻿namespace Pinball;
-public record Ball(Vector a, Vector s, Vector x, decimal r);
+public record Ball(Vector s, Vector x, decimal r);
