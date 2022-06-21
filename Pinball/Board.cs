@@ -2,6 +2,15 @@ namespace Pinball;
 
 public class Board
 {
+    private readonly IPointCollider pointCollider;
+    private readonly ICollisionResolver collisionResolver;
+
+    public Board(IPointCollider pointCollider, ICollisionResolver collisionResolver)
+    {
+        this.pointCollider = pointCollider;
+        this.collisionResolver = collisionResolver;
+    }
+
     // For now, gravity is constant, but should be dependent upon Ball.Position.
     public Vector g { get; set; } = new(0, -10);
 
@@ -21,56 +30,11 @@ public class Board
 
         foreach (var p in PointColliders)
         {
-            var collision = DetectCollisionWithPoint(Ball, Δt, p);
+            var collision = pointCollider.DetectCollisionWithPoint(Ball, Δt, p);
             if (collision != null)
             {
-                Ball = ResolveCollision(Ball, Δt, collision);
+                Ball = collisionResolver.ResolveCollision(Ball, Δt, collision);
             }
         }
-    }
-
-    public static Collision? DetectCollisionWithPoint(Ball ball, decimal Δt, Vector p)
-    {
-        var n = ball.s.Normalize();
-        var xp = p - ball.x;
-        if (xp * n <= 0)
-        {
-            return null;
-        }
-
-        var t = n.Rotate90CW();
-        var xcx = xp * t;
-
-        if (xcx <= -ball.r || xcx >= ball.r)
-        {
-            return null;
-        }
-
-        var xcy = DecimalEx.Sqrt(ball.r * ball.r - xcx * xcx);
-        var xc = new Vector(xcx, xcy);
-        var d = (xp - xc).GetNorm();
-        var δt = d / ball.s.GetNorm();
-        if (δt >= Δt)
-        {
-            return null;
-        }
-
-        var N = -xc.Normalize();
-
-        return new Collision(δt, p, N);
-    }
-
-    public static Ball ResolveCollision(Ball ball, decimal Δt, Collision collision)
-    {
-        var (s, x, r) = ball;
-        var (δt, p, N) = collision;
-        var C = 1;
-
-        var xc = p + r * N;
-        var T = N.Rotate90CW();
-        s = (s * T) * T - C * (s * N) * N;
-        x = xc + (Δt - δt) * s;
-
-        return ball with { s = s, x = x };
     }
 }
