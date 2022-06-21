@@ -1,3 +1,3 @@
 namespace Pinball;
 
-public record Collision(decimal TimeToCollision, Vector Point, Vector Normal);
+public record Collision(decimal δt, Vector p, Vector N);

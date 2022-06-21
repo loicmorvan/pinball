@@ -9,26 +9,26 @@ public class Board
 
     public Vector[] PointColliders { get; set; } = Array.Empty<Vector>();
 
-    public void Step(decimal dt)
+    public void Step(decimal Δt)
     {
-        Ball.Acceleration = Gravity;
-        Ball.Speed += dt * Ball.Acceleration;
-        Ball.Position += dt * Ball.Speed;
+        Ball.a = Gravity;
+        Ball.s += Δt * Ball.a;
+        Ball.x += Δt * Ball.s;
 
         foreach(var p in PointColliders)
         {
-            var collision = DetectCollisionWithPoint(Ball, dt, p);
+            var collision = DetectCollisionWithPoint(Ball, Δt, p);
             if (collision != null)
             {
-                ResolveCollision(dt, collision);
+                ResolveCollision(Δt, collision);
             }
         }
     }
 
-    public static Collision? DetectCollisionWithPoint(Ball ball, decimal dt, Vector p)
+    public static Collision? DetectCollisionWithPoint(Ball ball, decimal Δt, Vector p)
     {
-        var n = ball.Speed.Normalize();
-        var xp = p - ball.Position;
+        var n = ball.s.Normalize();
+        var xp = p - ball.x;
         if (xp * n <= 0)
         {
             return null;
@@ -37,31 +37,33 @@ public class Board
         var t = n.Rotate90CW();
         var xcx = xp * t;
 
-        if (xcx <= -ball.Radius || xcx >= ball.Radius)
+        if (xcx <= -ball.r || xcx >= ball.r)
         {
             return null;
         }
 
-        var xcy = DecimalEx.Sqrt(ball.Radius * ball.Radius - xcx * xcx);
+        var xcy = DecimalEx.Sqrt(ball.r * ball.r - xcx * xcx);
         var xc = new Vector(xcx, xcy);
         var d = (xp - xc).GetNorm();
-        var dtc = d / ball.Speed.GetNorm();
-        if (dtc >= dt)
+        var δt = d / ball.s.GetNorm();
+        if (δt >= Δt)
         {
             return null;
         }
 
         var N = -xc.Normalize();
 
-        return new Collision(dtc, p, N);
+        return new Collision(δt, p, N);
     }
 
-    public void ResolveCollision(decimal dt, Collision collision)
+    public void ResolveCollision(decimal Δt, Collision collision)
     {
+        var (δt, p, N) = collision;
         var C = 1;
-        var xc = collision.Point + Ball.Radius * collision.Normal;
-        var T = collision.Normal.Rotate90CW();
-        Ball.Speed = (Ball.Speed * T) * T - C * (Ball.Speed * collision.Normal) * collision.Normal;
-        Ball.Position = xc + (dt - collision.TimeToCollision) * Ball.Speed;
+
+        var xc = p + Ball.r * N;
+        var T = N.Rotate90CW();
+        Ball.s = (Ball.s * T) * T - C * (Ball.s * N) * N;
+        Ball.x = xc + (Δt - δt) * Ball.s;
     }
 }

@@ -1,11 +1,11 @@
 ﻿namespace Pinball;
 public class Ball
 {
-    public Vector Acceleration { get; set; }
+    public Vector a { get; set; }
 
-    public Vector Speed { get; set; }
+    public Vector s { get; set; }
 
-    public Vector Position { get; set; }
+    public Vector x { get; set; }
 
-    public decimal Radius { get; set; }
+    public decimal r { get; set; }
 }
