@@ -41,4 +41,9 @@ public record struct Vector(decimal X, decimal Y)
     {
         return new Vector(-Y, X);
     }
+
+    public static implicit operator Vector(in decimal value)
+    {
+        return new Vector(value, value);
+    }
 }

@@ -3,24 +3,28 @@ namespace Pinball;
 public class Board
 {
     // For now, gravity is constant, but should be dependent upon Ball.Position.
-    public Vector Gravity { get; set; } = new(0, -10);
+    public Vector g { get; set; } = new(0, -10);
 
-    public Ball Ball { get; set; } = new Ball();
+    public Ball Ball { get; set; } = new Ball(0, 0, 0, 0.25m);
 
     public Vector[] PointColliders { get; set; } = Array.Empty<Vector>();
 
     public void Step(decimal Δt)
     {
-        Ball.a = Gravity;
-        Ball.s += Δt * Ball.a;
-        Ball.x += Δt * Ball.s;
+        var (a, s, x, r) = Ball;
 
-        foreach(var p in PointColliders)
+        a = g;
+        s += Δt * a;
+        x += Δt * s;
+
+        Ball = new(a, s, x, r);
+
+        foreach (var p in PointColliders)
         {
             var collision = DetectCollisionWithPoint(Ball, Δt, p);
             if (collision != null)
             {
-                ResolveCollision(Δt, collision);
+                Ball = ResolveCollision(Ball, Δt, collision);
             }
         }
     }
@@ -56,14 +60,17 @@ public class Board
         return new Collision(δt, p, N);
     }
 
-    public void ResolveCollision(decimal Δt, Collision collision)
+    public static Ball ResolveCollision(Ball ball, decimal Δt, Collision collision)
     {
+        var (_, s, x, r) = ball;
         var (δt, p, N) = collision;
         var C = 1;
 
-        var xc = p + Ball.r * N;
+        var xc = p + r * N;
         var T = N.Rotate90CW();
-        Ball.s = (Ball.s * T) * T - C * (Ball.s * N) * N;
-        Ball.x = xc + (Δt - δt) * Ball.s;
+        s = (s * T) * T - C * (s * N) * N;
+        x = xc + (Δt - δt) * s;
+
+        return ball with { s = s, x = x };
     }
 }

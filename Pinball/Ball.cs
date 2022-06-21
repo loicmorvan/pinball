@@ -1,11 +1,2 @@
 ﻿namespace Pinball;
-public class Ball
-{
-    public Vector a { get; set; }
-
-    public Vector s { get; set; }
-
-    public Vector x { get; set; }
-
-    public decimal r { get; set; }
-}
+public record Ball(Vector a, Vector s, Vector x, decimal r);
