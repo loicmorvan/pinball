@@ -1,6 +1,6 @@
 ﻿using Pinball;
 
-var board = new Board();
+var board = new Board(new PointCollider(), new CollisionResolver());
 board.PointColliders = new[] { new Vector(0, -1) };
 
 using var file = File.CreateText("output.csv");
