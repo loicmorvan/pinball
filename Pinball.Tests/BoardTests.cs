@@ -1,5 +1,3 @@
-using Xunit;
-
 namespace Pinball.Tests;
 
 public class BoardTests
