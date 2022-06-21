@@ -18,15 +18,15 @@ public class BoardTests
     [Fact]
     public void Test()
     {
-        var sut = new Board();
-        sut.Ball.Speed = new Vector(0, 1);
-        sut.Ball.Radius = 0.25m;
+        var sut = new Ball();
+        sut.Speed = new Vector(0, 1);
+        sut.Radius = 0.25m;
 
-        var result = sut.CollideWithPoint(1, new Vector(0, 0.5m));
+        var result = Board.DetectCollisionWithPoint(sut, 1, new Vector(0, 0.5m));
 
         Assert.NotNull(result);
-        Assert.Equal(0.25m, result.Value.TimeToCollision);
-        Assert.Equal(new Vector(0, 0.5m), result.Value.Point);
-        Assert.Equal(new Vector(0, -1), result.Value.Normal);
+        Assert.Equal(0.25m, result!.TimeToCollision);
+        Assert.Equal(new Vector(0, 0.5m), result.Point);
+        Assert.Equal(new Vector(0, -1), result.Normal);
     }
 }

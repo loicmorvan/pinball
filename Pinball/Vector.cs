@@ -36,4 +36,9 @@ public record struct Vector(decimal X, decimal Y)
         var norm = GetNorm();
         return new Vector(X / norm, Y / norm);
     }
+
+    public Vector Rotate90CW()
+    {
+        return new Vector(-Y, X);
+    }
 }
