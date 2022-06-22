@@ -27,18 +27,22 @@ public class Board
 
         var ball = new Ball(s, x, r);
 
+        bool hasCollided = false;
         foreach (var p in PointColliders)
         {
             var collision = pointCollider.DetectCollisionWithPoint(ball, Δt, p);
             if (collision != null)
             {
                 Ball = collisionResolver.ResolveCollision(ball, Δt, collision);
+                hasCollided = true;
+                break;
             }
-            else
-            {
-                x += Δt * s;
-                Ball = ball with { x = x };
-            }
+        }
+
+        if (!hasCollided)
+        {
+            x += Δt * s;
+            Ball = ball with { x = x };
         }
     }
 }
