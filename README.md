@@ -63,16 +63,18 @@ Algorithm:
 1. Let $\vec{xp}=\vec{p}-\vec{x}$.
 2. If $\vec{xp}\cdot\vec{n}\le0$ then the ball is globally moving away from that point and there couldn't be any collision.
 3. Compute the projection of the point to the tangent:
-   $$\vec{xc}_x=\vec{xp}\cdot\vec{t}$$
-   If $||\vec{xc}_x||\notin\left]-r,r\right[$ then the ball will not touch the point.
+   $$\vec{xc}_t=\vec{xp}\cdot\vec{t}$$
+   If $||\vec{xc}_t||\notin\left]-r,r\right[$ then the ball will not touch the point.
 4. Compute the projection of $\vec{xc}$ to $\vec{n}$ (we know that $||\vec{xc}||=r$, thus invoking Pythagore):
-   $$ \vec{xc}_y=\sqrt{r^2-\vec{xc}_x^2} $$
-5. Compute distance to point along the speed vector:
+   $$ \vec{xc}_n=\sqrt{r^2-\vec{xc}_x^2} $$
+5. Then:
+   $$\vec{xc}=\vec{xc}_t\vec{t}+\vec{xc}_n\vec{n}$$
+6. Compute distance to point along the speed vector:
    $$ d=||\vec{xp}-\vec{xc}|| $$
-6. Compute the time before contact:
+7. Compute the time before contact:
    $$ \delta t=\frac{d}{||\vec{s}||} $$
    If $\delta t\ge\Delta t$ there will be no collision for that iteration. The particular case $\delta t=\Delta t$ will be handled in the next iteration.
-7. Compute the normal of contact:
+8. Compute the normal of contact:
    $$ \vec{N}=-\frac{\vec{xc}}{||\vec{xc}||} $$
 
 ## 5. Continuous collision reaction

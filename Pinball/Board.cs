@@ -24,16 +24,20 @@ public class Board
 
         var a = g;
         s += Δt * a;
-        x += Δt * s;
 
-        Ball = new(s, x, r);
+        var ball = new Ball(s, x, r);
 
         foreach (var p in PointColliders)
         {
-            var collision = pointCollider.DetectCollisionWithPoint(Ball, Δt, p);
+            var collision = pointCollider.DetectCollisionWithPoint(ball, Δt, p);
             if (collision != null)
             {
-                Ball = collisionResolver.ResolveCollision(Ball, Δt, collision);
+                Ball = collisionResolver.ResolveCollision(ball, Δt, collision);
+            }
+            else
+            {
+                x += Δt * s;
+                Ball = ball with { x = x };
             }
         }
     }

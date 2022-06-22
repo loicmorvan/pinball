@@ -4,25 +4,32 @@ public class PointCollider: IPointCollider
 {
     public Collision? DetectCollisionWithPoint(Ball ball, decimal Δt, Vector p)
     {
-        var n = ball.s.Normalize();
-        var xp = p - ball.x;
+        var (s, x, r) = ball;
+
+        if (s.GetNorm() == 0)
+        {
+            return null;
+        }
+
+        var n = s.Normalize();
+        var xp = p - x;
         if (xp * n <= 0)
         {
             return null;
         }
 
         var t = n.Rotate90CW();
-        var xcx = xp * t;
+        var xct = xp * t;
 
-        if (xcx <= -ball.r || xcx >= ball.r)
+        if (xct <= -r || xct >= r)
         {
             return null;
         }
 
-        var xcy = DecimalEx.Sqrt(ball.r * ball.r - xcx * xcx);
-        var xc = new Vector(xcx, xcy);
+        var xcn = DecimalEx.Sqrt(r * r - xct * xct);
+        var xc = xct * t + xcn * n;
         var d = (xp - xc).GetNorm();
-        var δt = d / ball.s.GetNorm();
+        var δt = d / s.GetNorm();
         if (δt >= Δt)
         {
             return null;
