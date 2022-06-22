@@ -7,6 +7,7 @@ Documentation about simulating a Pinball game.
 - [3. Interpenetration](#3-interpenetration)
 - [4. Continuous collision detection](#4-continuous-collision-detection)
   - [4.1. When collider is a point](#41-when-collider-is-a-point)
+  - [4.2. When collider is a half-plane](#42-when-collider-is-a-half-plane)
 - [5. Continuous collision reaction](#5-continuous-collision-reaction)
 - [6. After the collision](#6-after-the-collision)
 
@@ -76,6 +77,22 @@ Algorithm:
    If $\delta t\ge\Delta t$ there will be no collision for that iteration. The particular case $\delta t=\Delta t$ will be handled in the next iteration.
 8. Compute the normal of contact:
    $$ \vec{N}=-\frac{\vec{xc}}{||\vec{xc}||} $$
+
+### 4.2. When collider is a half-plane
+
+Given:
+- a point at the surface of the half-plane $\vec{p}$;
+- the normal of the surface of the half-plane, pointing outside $\vec{n}$.
+
+Algorithm:
+1. The point of collision at the surface of the ball before motion is:
+   $$ \vec{c_B}=\vec{x}-r\vec{n} $$
+2. The real point of collision is:
+   $$ \vec{c}=\vec{p}+\left(\frac{\vec{c_B}\wedge\vec{s}-\vec{p}\wedge\vec{s}}{\vec{t}\wedge\vec{s}}\right)\vec{t} $$
+3. Normal is trivially:
+   $$ \vec{N}=\vec{n} $$
+4. Time to collision is:
+   $$ \delta t=\frac{||\overrightarrow{cc_B}||}{||\vec{s}||} $$
 
 ## 5. Continuous collision reaction
 
