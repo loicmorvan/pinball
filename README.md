@@ -85,14 +85,18 @@ Given:
 - the normal of the surface of the half-plane, pointing outside $\vec{n}$.
 
 Algorithm:
-1. The point of collision at the surface of the ball before motion is:
+1. If $\vec{n}\cdot\vec{s}\ge0$ then the ball is moving away from the half-plane and there will be no collision.
+2. The point of collision at the surface of the ball before motion is:
    $$ \vec{c_B}=\vec{x}-r\vec{n} $$
-2. The real point of collision is:
+3. The real point of collision is:
    $$ \vec{c}=\vec{p}+\left(\frac{\vec{c_B}\wedge\vec{s}-\vec{p}\wedge\vec{s}}{\vec{t}\wedge\vec{s}}\right)\vec{t} $$
-3. Normal is trivially:
+4. Normal is trivially:
    $$ \vec{N}=\vec{n} $$
-4. Time to collision is:
-   $$ \delta t=\frac{||\overrightarrow{cc_B}||}{||\vec{s}||} $$
+5. Distance between the contact point on the ball and the contact point on the half-plane: 
+   $$ d = ||\overrightarrow{cc_B}|| $$
+6. Time to collision is:
+   $$ \delta t=\frac{d}{||\vec{s}||} $$
+   If $\delta t\ge\Delta t$ then the ball will not have time to be in collision with the half-plane within this iteration.
 
 ## 5. Continuous collision reaction
 

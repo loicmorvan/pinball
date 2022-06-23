@@ -1,8 +1,9 @@
 ﻿using Pinball;
 
-var board = new Board(new PointCollider(), new CollisionResolver());
+var board = new Board(new HalfPlaneCollider(), new PointCollider(), new CollisionResolver());
 board.Ball = new(new(0.1m, 0), new(0, 10), 0.25m);
-board.PointColliders = Enumerable.Range(0, 2500).Select(i => new Vector(0.1m * i, 0)).ToArray();
+board.HalfPlaneColliders = new[] { new HalfPlane(0, new(0, 1)) };
+// board.PointColliders = Enumerable.Range(0, 2500).Select(i => new Vector(0.1m * i, 0)).ToArray();
 
 using var file = File.CreateText("output.csv");
 file.WriteLine("iteration,x,y,energie cinetique,energie potentielle,energie mecanique");

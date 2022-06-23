@@ -2,11 +2,13 @@ namespace Pinball;
 
 public class Board
 {
+    private readonly IHalfPlaneCollider halfPlaneCollider;
     private readonly IPointCollider pointCollider;
     private readonly ICollisionResolver collisionResolver;
 
-    public Board(IPointCollider pointCollider, ICollisionResolver collisionResolver)
+    public Board(IHalfPlaneCollider halfPlaneCollider, IPointCollider pointCollider, ICollisionResolver collisionResolver)
     {
+        this.halfPlaneCollider = halfPlaneCollider;
         this.pointCollider = pointCollider;
         this.collisionResolver = collisionResolver;
     }
@@ -18,6 +20,8 @@ public class Board
 
     public Vector[] PointColliders { get; set; } = Array.Empty<Vector>();
 
+    public HalfPlane[] HalfPlaneColliders { get; set; } = Array.Empty<HalfPlane>();
+
     public void Step(decimal Δt)
     {
         var (s, x, r) = Ball;
@@ -28,6 +32,17 @@ public class Board
         var ball = new Ball(s, x, r);
 
         bool hasCollided = false;
+        foreach (var halfPlane in HalfPlaneColliders)
+        {
+            var collision = halfPlaneCollider.DetectCollisionWithHalfPlane(ball, Δt, halfPlane);
+            if (collision != null)
+            {
+                Ball = collisionResolver.ResolveCollision(ball, Δt, collision);
+                hasCollided = true;
+                break;
+            }
+        }
+
         foreach (var p in PointColliders)
         {
             var collision = pointCollider.DetectCollisionWithPoint(ball, Δt, p);

@@ -1,6 +1,11 @@
 namespace Pinball;
 public record struct Vector(decimal X, decimal Y)
 {
+    public static decimal operator ^(in Vector left, in Vector right)
+    {
+        return left.X * right.Y - left.Y * right.X;
+    }
+
     public static Vector operator *(in decimal scalar, in Vector vector)
     {
         return new Vector(scalar * vector.X, scalar * vector.Y);
