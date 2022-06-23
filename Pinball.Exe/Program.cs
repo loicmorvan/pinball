@@ -10,7 +10,7 @@ board.DiskColliders = new[] { new Disk(0, 5) };
 using var file = File.CreateText("output.csv");
 file.WriteLine("iteration,x,y,energie cinetique,energie potentielle,energie mecanique");
 
-for (int i = 0; i < 1000; ++i)
+for (int i = 0; i < 10000; ++i)
 {
     // 50Hz -> 20s
     board.Step(0.02m);
