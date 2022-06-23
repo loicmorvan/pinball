@@ -1,3 +1,6 @@
+using Pinball.Impl;
+using Pinball.Math;
+
 namespace Pinball.Tests;
 public class HalfPinballColliderTests
 {

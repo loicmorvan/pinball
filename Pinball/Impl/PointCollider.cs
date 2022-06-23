@@ -1,6 +1,9 @@
-namespace Pinball;
+using Pinball.Interfaces;
+using Pinball.Math;
 
-public class PointCollider: IPointCollider
+namespace Pinball.Impl;
+
+public class PointCollider : IPointCollider
 {
     public Collision? DetectCollisionWithPoint(Ball ball, decimal Δt, Vector p)
     {

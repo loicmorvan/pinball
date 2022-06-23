@@ -1,4 +1,4 @@
-namespace Pinball;
+namespace Pinball.Math;
 public record struct Vector(decimal X, decimal Y)
 {
     public static decimal operator ^(in Vector left, in Vector right)

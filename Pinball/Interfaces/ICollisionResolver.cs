@@ -1,4 +1,4 @@
-namespace Pinball;
+namespace Pinball.Interfaces;
 
 public interface ICollisionResolver
 {

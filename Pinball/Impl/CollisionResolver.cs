@@ -1,6 +1,8 @@
-namespace Pinball;
+using Pinball.Interfaces;
 
-public class CollisionResolver: ICollisionResolver
+namespace Pinball.Impl;
+
+public class CollisionResolver : ICollisionResolver
 {
     public Ball ResolveCollision(Ball ball, decimal Δt, Collision collision)
     {
@@ -10,7 +12,7 @@ public class CollisionResolver: ICollisionResolver
 
         var xc = p + r * N;
         var T = N.Rotate90CW();
-        s = (s * T) * T - C * (s * N) * N;
+        s = s * T * T - C * (s * N) * N;
         x = xc + (Δt - δt) * s;
 
         return ball with { s = s, x = x };

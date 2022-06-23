@@ -1,14 +1,19 @@
+using Pinball.Interfaces;
+using Pinball.Math;
+
 namespace Pinball;
 
 public class Board
 {
     private readonly IHalfPlaneCollider halfPlaneCollider;
+    private readonly IDiskCollider diskCollider;
     private readonly IPointCollider pointCollider;
     private readonly ICollisionResolver collisionResolver;
 
-    public Board(IHalfPlaneCollider halfPlaneCollider, IPointCollider pointCollider, ICollisionResolver collisionResolver)
+    public Board(IHalfPlaneCollider halfPlaneCollider, IDiskCollider diskCollider, IPointCollider pointCollider, ICollisionResolver collisionResolver)
     {
         this.halfPlaneCollider = halfPlaneCollider;
+        this.diskCollider = diskCollider;
         this.pointCollider = pointCollider;
         this.collisionResolver = collisionResolver;
     }
@@ -19,6 +24,8 @@ public class Board
     public Ball Ball { get; set; } = new Ball(0, 0, 0.25m);
 
     public Vector[] PointColliders { get; set; } = Array.Empty<Vector>();
+
+    public Disk[] DiskColliders { get; set; } = Array.Empty<Disk>();
 
     public HalfPlane[] HalfPlaneColliders { get; set; } = Array.Empty<HalfPlane>();
 
@@ -35,6 +42,17 @@ public class Board
         foreach (var halfPlane in HalfPlaneColliders)
         {
             var collision = halfPlaneCollider.DetectCollisionWithHalfPlane(ball, Δt, halfPlane);
+            if (collision != null)
+            {
+                Ball = collisionResolver.ResolveCollision(ball, Δt, collision);
+                hasCollided = true;
+                break;
+            }
+        }
+
+        foreach (var disk in DiskColliders)
+        {
+            var collision = diskCollider.DetectCollision(ball, Δt, disk);
             if (collision != null)
             {
                 Ball = collisionResolver.ResolveCollision(ball, Δt, collision);

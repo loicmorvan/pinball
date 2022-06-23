@@ -1,4 +1,6 @@
-namespace Pinball;
+using Pinball.Interfaces;
+
+namespace Pinball.Impl;
 
 public class HalfPlaneCollider : IHalfPlaneCollider
 {
@@ -14,7 +16,7 @@ public class HalfPlaneCollider : IHalfPlaneCollider
 
         var cB = x - r * n;
         var t = n.Rotate90CW();
-        var c = p + (((cB ^ s) - (p ^ s)) / (t ^ s)) * t;
+        var c = p + ((cB ^ s) - (p ^ s)) / (t ^ s) * t;
 
         var d = (cB - c).GetNorm();
         var δt = d / s.GetNorm();

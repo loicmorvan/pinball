@@ -1,4 +1,6 @@
-namespace Pinball;
+using Pinball.Math;
+
+namespace Pinball.Interfaces;
 
 public interface IPointCollider
 {

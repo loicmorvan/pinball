@@ -1,3 +1,5 @@
+using Pinball.Impl;
+
 namespace Pinball.Tests;
 
 public class CollisionResolverTests
