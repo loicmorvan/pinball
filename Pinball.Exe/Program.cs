@@ -8,7 +8,7 @@ board.HalfPlaneColliders = new[] { new HalfPlane(0, new(0, 1)), new HalfPlane(ne
 board.DiskColliders = new[] { new Disk(0, 5) };
 
 var window = new Window();
-window.Room.GameObjects.Add(new GameObject { Sprite = new Sprite("") });
-window.Room.GameObjects.Add(new GameObject { Sprite = new Sprite(""), X = -1 });
-window.Room.GameObjects.Add(new GameObject { Sprite = new Sprite(""), X = -0.5m, Y = -0.5m });
+window.Room.Camera = new(-10, 0, 20, 10);
+window.Room.GameObjects.Add(new GameObject { Sprite = new Sprite("", 0.5m, 0.5m) });
+window.Room.GameObjects.Add(new GameObject { Sprite = new Sprite("", 0.5m, 0.5m), X = -10, Y = 5 });
 window.Run();

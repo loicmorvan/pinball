@@ -63,6 +63,13 @@ public sealed class Program : IProgram, IDisposable
         Helper.CheckError();
     }
 
+    public void Uniform4(string name, float v1, float v2, float v3, float v4)
+    {
+        var location = GL.GetUniformLocation(program, name);
+        GL.Uniform4(location, v1, v2, v3, v4);
+        Helper.CheckError();
+    }
+
     public void Uniform2(string name, Vector2 value)
     {
         Uniform2(name, value.X, value.Y);

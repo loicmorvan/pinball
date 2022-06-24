@@ -26,11 +26,13 @@ public class Window : GameWindow
         })
     {
         var repo = new AssemblyResourceRepository(Assembly.GetExecutingAssembly());
+
         program = new Lazy<IProgram>(() => new Program(
             new Shader(ShaderType.VertexShader, "Engine.Resources.TileMap.vert", repo),
             new Shader(ShaderType.FragmentShader, "Engine.Resources.TileMap.frag", repo)));
-        vao = new Lazy<IVertexArrayObject>(() => new VertexArrayObject());
         texture = new Lazy<ITexture>(() => new Texture("Engine.Resources.Sample.png", repo));
+
+        vao = new Lazy<IVertexArrayObject>(() => new VertexArrayObject());
     }
 
     public Room Room { get; set; } = new();
@@ -50,12 +52,15 @@ public class Window : GameWindow
 
         program.Value.Use();
         program.Value.Uniform1("tex", 0);
+        var (x, y, w, h) = Room.Camera;
+        program.Value.Uniform4("camera", (float)x, (float)y, (float)w, (float)h);
         texture.Value.Bind(TextureUnit.Texture0);
         foreach (var gameObject in Room.GameObjects)
         {
-            if (gameObject.Sprite != null)
+            if (gameObject.Sprite is not null)
             {
-                program.Value.Uniform2("topleft", (int)gameObject.X, (int)gameObject.Y);
+                program.Value.Uniform2("topleft", (float)gameObject.X, (float)gameObject.Y);
+                program.Value.Uniform2("size", (float)gameObject.Sprite.Width, (float)gameObject.Sprite.Height);
                 vao.Value.Draw();
             }
         }

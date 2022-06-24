@@ -9,4 +9,6 @@ public interface IProgram
     void Uniform2(string v, int tileWidth, int tileHeight);
     void Uniform2(string v, float tileWidth, float tileHeight);
     void Uniform2(string v, Vector2i finalDestination);
+
+    void Uniform4(string name, float v1, float v2, float v3, float v4);
 }
