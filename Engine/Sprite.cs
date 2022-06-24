@@ -1,6 +1,3 @@
 namespace Engine;
 
-public class Sprite
-{
-    public void Render() { }
-}
+public record Sprite(string TextureResource);

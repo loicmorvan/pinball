@@ -11,13 +11,4 @@ public class Room
             gameObject.Step(Δt);
         }
     }
-
-    internal void Render()
-    {
-        foreach (var gameObject in GameObjects)
-        {
-            gameObject.Render();
-            gameObject.Sprite?.Render();
-        }
-    }
 }
