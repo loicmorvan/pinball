@@ -55,6 +55,7 @@ public class Window : GameWindow
     {
         base.OnRenderFrame(args);
 
+        GL.ClearColor(1, 1, 1, 1);
         GL.Clear(ClearBufferMask.ColorBufferBit);
 
         program.Value.Use();
@@ -66,7 +67,7 @@ public class Window : GameWindow
         {
             if (gameObject.Sprite is not null)
             {
-                program.Value.Uniform2("topleft", (float)gameObject.X, (float)gameObject.Y);
+                program.Value.Uniform2("topleft", (float)(gameObject.X - gameObject.Sprite.CenterX), (float)(gameObject.Y - gameObject.Sprite.CenterY));
                 program.Value.Uniform2("size", (float)gameObject.Sprite.Width, (float)gameObject.Sprite.Height);
                 vao.Value.Draw();
             }

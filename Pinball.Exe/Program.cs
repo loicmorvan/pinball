@@ -9,6 +9,7 @@ board.DiskColliders = new[] { new Disk(0, 5) };
 
 var window = new Window();
 window.Room.Camera = new(-10, 0, 20, 10);
-window.Room.GameObjects.Add(new GameObject { Sprite = new Sprite("", 0.5m, 0.5m) });
-window.Room.GameObjects.Add(new GameObject { Sprite = new Sprite("", 0.5m, 0.5m), X = -10, Y = 5 });
+window.Room.GameObjects.Add(new Pinball.Exe.Board(board));
+window.Room.GameObjects.Add(new GameObject() { Sprite = new("", 10, 10, 5m, 5m) });
+window.Room.GameObjects.Add(new Pinball.Exe.Ball(board) { Sprite = new("", 0.5m, 0.5m, 0.25m, 0.25m) });
 window.Run();
