@@ -8,7 +8,7 @@ public class CollisionResolver : ICollisionResolver
     {
         var (s, x, r) = ball;
         var (δt, p, N) = collision;
-        var C = 1;
+        var C = 0.5m;
 
         var xc = p + r * N;
         var T = N.Rotate90CW();
