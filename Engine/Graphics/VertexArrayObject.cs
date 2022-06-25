@@ -9,10 +9,10 @@ public sealed class VertexArrayObject : IDisposable, IVertexArrayObject
 
     public VertexArrayObject()
     {
-        GL.CreateVertexArrays(1, out vao);
+        vao = GL.GenVertexArray();
         GL.BindVertexArray(vao);
 
-        GL.CreateBuffers(1, out int positionBufferObject);
+        var positionBufferObject = GL.GenBuffer();
         GL.BindBuffer(BufferTarget.ArrayBuffer, positionBufferObject);
         GL.BufferData(BufferTarget.ArrayBuffer, 12 * sizeof(float), new[]
         {

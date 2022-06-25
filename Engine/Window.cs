@@ -9,6 +9,8 @@ namespace Engine;
 
 public class Window : GameWindow
 {
+    private static readonly Version TargetVersion = new(4, 0);
+
     private readonly Lazy<IProgram> program;
     private readonly Lazy<IVertexArrayObject> vao;
     private readonly Lazy<ITexture> texture;
@@ -21,10 +23,15 @@ public class Window : GameWindow
         },
         new NativeWindowSettings
         {
-            APIVersion = new Version(4, 0),
+            APIVersion = TargetVersion,
             Flags = ContextFlags.ForwardCompatible | ContextFlags.Debug
         })
     {
+        if (APIVersion != TargetVersion)
+        {
+            throw new Exception("Not the required target version.");
+        }
+
         var repo = new AssemblyResourceRepository(Assembly.GetExecutingAssembly());
 
         program = new Lazy<IProgram>(() => new Program(

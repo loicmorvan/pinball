@@ -12,7 +12,7 @@ public sealed class Texture : ITexture, IDisposable
 
     public unsafe Texture(string textureResourceName, IResourceRepository resourceRepository)
     {
-        GL.CreateTextures(TextureTarget.Texture2D, 1, out texture);
+        texture = GL.GenTexture();
         GL.BindTexture(TextureTarget.Texture2D, texture);
         GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
         GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
@@ -59,7 +59,10 @@ public sealed class Texture : ITexture, IDisposable
     public void Bind(TextureUnit textureUnit)
     {
         GL.ActiveTexture(textureUnit);
+        Helper.CheckError();
+
         GL.BindTexture(TextureTarget.Texture2D, texture);
+        Helper.CheckError();
     }
 
     ~Texture()
