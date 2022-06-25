@@ -1,11 +1,11 @@
 using Pinball.Interfaces;
 using Pinball.Math;
 
-namespace Pinball.Impl;
+namespace Pinball;
 
-public class PointCollider : IPointCollider
+public record Point(Vector p): ICollider
 {
-    public Collision? DetectCollisionWithPoint(Ball ball, decimal Δt, Vector p)
+    public Collision? Detect(Ball ball, decimal Δt)
     {
         var (s, x, r) = ball;
 
