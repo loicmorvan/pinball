@@ -44,9 +44,9 @@ public class Board
             var collision = halfPlaneCollider.DetectCollisionWithHalfPlane(ball, Δt, halfPlane);
             if (collision != null)
             {
+                Δt = Δt - collision.δt;
                 Ball = collisionResolver.ResolveCollision(ball, Δt, collision);
                 hasCollided = true;
-                break;
             }
         }
 
@@ -55,9 +55,9 @@ public class Board
             var collision = diskCollider.DetectCollision(ball, Δt, disk);
             if (collision != null)
             {
+                Δt = Δt - collision.δt;
                 Ball = collisionResolver.ResolveCollision(ball, Δt, collision);
                 hasCollided = true;
-                break;
             }
         }
 
@@ -66,9 +66,9 @@ public class Board
             var collision = pointCollider.DetectCollisionWithPoint(ball, Δt, p);
             if (collision != null)
             {
+                Δt = Δt - collision.δt;
                 Ball = collisionResolver.ResolveCollision(ball, Δt, collision);
                 hasCollided = true;
-                break;
             }
         }
 
