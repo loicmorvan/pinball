@@ -1,4 +1,5 @@
 using System.Reflection;
+using Engine.Graphics;
 using Graphics.Implementations;
 using Graphics.Interfaces;
 using OpenTK.Graphics.OpenGL4;
@@ -10,12 +11,11 @@ namespace Engine;
 public class Window : GameWindow
 {
     private static readonly Version TargetVersion = new(4, 0);
-
+    private readonly ITextureRepository textureRepository;
     private readonly Lazy<IProgram> program;
     private readonly Lazy<IVertexArrayObject> vao;
-    private readonly Lazy<ITexture> texture;
 
-    public Window() : base(
+    public Window(params IResourceRepository[] additionalResourceRepositories) : base(
         new GameWindowSettings
         {
             UpdateFrequency = 60,
@@ -32,12 +32,13 @@ public class Window : GameWindow
             throw new Exception("Not the required target version.");
         }
 
-        var repo = new AssemblyResourceRepository(Assembly.GetExecutingAssembly());
+        var repo = new CompositeResourceRepository(
+            additionalResourceRepositories.Prepend(new AssemblyResourceRepository(Assembly.GetExecutingAssembly())).ToArray());
+        textureRepository = new TextureRepository(repo);
 
         program = new Lazy<IProgram>(() => new Program(
             new Shader(ShaderType.VertexShader, "Engine.Resources.TileMap.vert", repo),
             new Shader(ShaderType.FragmentShader, "Engine.Resources.TileMap.frag", repo)));
-        texture = new Lazy<ITexture>(() => new Texture("Engine.Resources.Sample.png", repo));
 
         vao = new Lazy<IVertexArrayObject>(() => new VertexArrayObject());
     }
@@ -82,11 +83,11 @@ public class Window : GameWindow
         program.Value.Uniform1("tex", 0);
         var (x, y, w, h) = Room.Camera;
         program.Value.Uniform4("camera", (float)x, (float)y, (float)w, (float)h);
-        texture.Value.Bind(TextureUnit.Texture0);
         foreach (var gameObject in Room.GameObjects)
         {
             if (gameObject.Sprite is not null)
             {
+                textureRepository.Get(gameObject.Sprite.TextureResource).Bind(TextureUnit.Texture0);
                 program.Value.Uniform2("topleft", (float)(gameObject.X - gameObject.Sprite.CenterX), (float)(gameObject.Y - gameObject.Sprite.CenterY));
                 program.Value.Uniform2("size", (float)gameObject.Sprite.Width, (float)gameObject.Sprite.Height);
                 vao.Value.Draw();

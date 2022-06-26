@@ -1,4 +1,6 @@
-﻿using Engine;
+﻿using System.Reflection;
+using Engine;
+using Graphics.Implementations;
 using Pinball;
 using Pinball.Impl;
 using Pinball.Interfaces;
@@ -13,9 +15,9 @@ board.Colliders = new ICollider[]
     new Disk(0, 5, 1)
 };
 
-var window = new Window();
+var window = new Window(new AssemblyResourceRepository(Assembly.GetExecutingAssembly()));
 window.Room.Camera = new(-10, 0, 20, 10);
 window.Room.GameObjects.Add(new Pinball.Exe.Board(board));
-window.Room.GameObjects.Add(new GameObject() { Sprite = new("", 10, 10, 5m, 5m) });
-window.Room.GameObjects.Add(new Pinball.Exe.Ball(board) { Sprite = new("", 0.5m, 0.5m, 0.25m, 0.25m) });
+window.Room.GameObjects.Add(new GameObject() { Sprite = new("Pinball.Exe.Resources.Sample.png", 10, 10, 5m, 5m) });
+window.Room.GameObjects.Add(new Pinball.Exe.Ball(board) { Sprite = new("Pinball.Exe.Resources.Sample.png", 0.5m, 0.5m, 0.25m, 0.25m) });
 window.Run();
