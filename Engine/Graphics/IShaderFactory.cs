@@ -21,7 +21,7 @@
 
 using OpenTK.Graphics.OpenGL4;
 
-namespace Graphics.Interfaces;
+namespace Engine.Graphics;
 
 public interface IShaderFactory
 {

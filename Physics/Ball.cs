@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright (c) 2022 Loïc Morvan
 
  Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -19,8 +19,8 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Pinball.Math;
+using Physics.Math;
 
-namespace Pinball;
+namespace Physics;
 
-public record Collision(decimal δt, Vector p, Vector N, decimal c);
+public record Ball(Vector s, Vector X, decimal r);

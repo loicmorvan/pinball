@@ -19,10 +19,9 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Graphics.Interfaces;
 using OpenTK.Graphics.OpenGL4;
 
-namespace Graphics.Implementations;
+namespace Engine.Graphics;
 
 public sealed class VertexArrayObject : IDisposable, IVertexArrayObject
 {

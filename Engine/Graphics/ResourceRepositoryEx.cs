@@ -19,9 +19,7 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Graphics.Interfaces;
-
-namespace Graphics.Implementations;
+namespace Engine.Graphics;
 
 public static class ResourceRepositoryEx
 {

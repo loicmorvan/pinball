@@ -19,13 +19,12 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Graphics.Interfaces;
 using OpenTK.Graphics.OpenGL4;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
-namespace Graphics.Implementations;
+namespace Engine.Graphics;
 
 public sealed class Texture : ITexture, IDisposable
 {

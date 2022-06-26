@@ -19,22 +19,47 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Pinball.Math;
+using Physics.Math;
 
-namespace Pinball.Tests;
-public class HalfPinballColliderTests
+namespace Physics.Colliders;
+
+public record Point(Vector P, decimal c) : ICollider
 {
-    [Fact]
-    public void Test()
+    public Collision? Detect(Ball ball, decimal Δt)
     {
-        var ball = new Ball(new(0, -1), new(0, 1), 0.25m);
-        var sut = new HalfPlane(0, new(0, 1), 1);
+        var (s, X, r) = ball;
 
-        var result = sut.Detect(ball, 1);
+        if (s.GetNorm() == 0)
+        {
+            return null;
+        }
 
-        result.Should().NotBeNull(because: "a collision should have been detected");
-        result!.δt.Should().Be(0.75m, because: "the ball should fall by 0.75 until its surface reaches the half plane");
-        result.p.Should().Be(new Vector(0, 0), because: "the ball trivially touched the plane at 0");
-        result.N.Should().Be(new Vector(0, 1), because: "the half-plane is pointing up");
+        var n = s.Normalize();
+        var XP = P - X;
+        if (XP * n <= 0)
+        {
+            return null;
+        }
+
+        var t = n.Rotate90CW();
+        var XC_t = XP * t;
+
+        if (XC_t <= -r || XC_t >= r)
+        {
+            return null;
+        }
+
+        var XC_n = DecimalEx.Sqrt(r * r - XC_t * XC_t);
+        var XC = XC_t * t + XC_n * n;
+        var d = (XP - XC).GetNorm();
+        var δt = d / s.GetNorm();
+        if (δt >= Δt)
+        {
+            return null;
+        }
+
+        var N = -XC.Normalize();
+
+        return new Collision(δt, P, N, c);
     }
 }

@@ -1,4 +1,4 @@
-<!--
+/*
  Copyright (c) 2022 Loïc Morvan
 
  Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -17,33 +17,34 @@
  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- -->
+ */
 
-<Project Sdk="Microsoft.NET.Sdk">
+using Physics.Math;
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+namespace Physics.Colliders;
 
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
+public record struct HalfPlane(Vector p, Vector n, decimal c) : ICollider
+{
+    public Collision? Detect(Ball ball, decimal Δt)
+    {
+        var (s, x, r) = ball;
 
-  <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="6.7.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="3.1.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>
+        if (n * s >= 0)
+        {
+            return null;
+        }
 
-  <ItemGroup>
-    <ProjectReference Include="..\Pinball\Pinball.csproj" />
-  </ItemGroup>
+        var C_B = x - r * n;
+        var t = n.Rotate90CW();
+        var C = p + ((C_B ^ s) - (p ^ s)) / (t ^ s) * t;
 
-</Project>
+        var d = (C_B - C).GetNorm();
+        var δt = d / s.GetNorm();
+        if (δt >= Δt)
+        {
+            return null;
+        }
+
+        return new Collision(δt, C, n, c);
+    }
+}

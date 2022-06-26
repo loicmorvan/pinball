@@ -19,12 +19,11 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Graphics.Interfaces;
 using OpenTK.Graphics.OpenGL4;
 
-namespace Graphics.Implementations;
+namespace Engine.Graphics;
 
-public class Shader: IShader
+public class Shader : IShader
 {
     public Shader(ShaderType shaderType, string shaderResourceName, IResourceRepository resourceRepository)
     {

@@ -23,7 +23,7 @@ using OpenTK.Graphics.OpenGL4;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace Graphics.Implementations;
+namespace Engine.Graphics;
 
 internal static class Helper
 {

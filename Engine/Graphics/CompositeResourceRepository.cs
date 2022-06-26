@@ -19,8 +19,6 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Graphics.Interfaces;
-
 namespace Engine.Graphics;
 
 public class CompositeResourceRepository : IResourceRepository

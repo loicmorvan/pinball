@@ -1,4 +1,4 @@
-<!--
+/*
  Copyright (c) 2022 Loïc Morvan
 
  Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -17,24 +17,26 @@
  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- -->
+ */
 
-<Project Sdk="Microsoft.NET.Sdk">
+using Physics.Colliders;
+using Physics.Math;
 
-  <ItemGroup>
-    <ProjectReference Include="..\Pinball\Pinball.csproj" />
-    <ProjectReference Include="..\Engine\Engine.csproj" />
-  </ItemGroup>
+namespace Physics.Tests;
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+public class HalfPinballColliderTests
+{
+    [Fact]
+    public void Test()
+    {
+        var ball = new Ball(new(0, -1), new(0, 1), 0.25m);
+        var sut = new HalfPlane(0, new(0, 1), 1);
 
-  <ItemGroup>
-    <EmbeddedResource Include="Resources/**/*" />
-  </ItemGroup>
+        var result = sut.Detect(ball, 1);
 
-</Project>
+        result.Should().NotBeNull(because: "a collision should have been detected");
+        result!.δt.Should().Be(0.75m, because: "the ball should fall by 0.75 until its surface reaches the half plane");
+        result.p.Should().Be(new Vector(0, 0), because: "the ball trivially touched the plane at 0");
+        result.N.Should().Be(new Vector(0, 1), because: "the half-plane is pointing up");
+    }
+}

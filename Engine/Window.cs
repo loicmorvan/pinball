@@ -21,8 +21,6 @@
 
 using System.Reflection;
 using Engine.Graphics;
-using Graphics.Implementations;
-using Graphics.Interfaces;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;

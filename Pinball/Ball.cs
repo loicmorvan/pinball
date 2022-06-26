@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright (c) 2022 Loïc Morvan
 
  Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -19,7 +19,22 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Pinball.Math;
+using Engine;
 
 namespace Pinball;
-public record Ball(Vector s, Vector X, decimal r);
+
+public class Ball : GameObject
+{
+    private readonly Physics.Board board;
+
+    public Ball(Physics.Board board)
+    {
+        this.board = board;
+    }
+
+    protected override void Step(decimal Δt)
+    {
+        X = board.Ball.X.X;
+        Y = board.Ball.X.Y;
+    }
+}

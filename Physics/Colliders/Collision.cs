@@ -19,11 +19,8 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace Pinball.Math;
-public static class DecimalEx
-{
-    public static decimal Sqrt(decimal value)
-    {
-        return (decimal)System.Math.Sqrt((double)value);
-    }
-}
+using Physics.Math;
+
+namespace Physics.Colliders;
+
+public record Collision(decimal δt, Vector p, Vector N, decimal c);

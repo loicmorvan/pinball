@@ -21,7 +21,7 @@
 
 using OpenTK.Mathematics;
 
-namespace Graphics.Interfaces;
+namespace Engine.Graphics;
 
 public interface IProgram
 {
