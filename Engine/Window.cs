@@ -44,6 +44,26 @@ public class Window : GameWindow
 
     public Room Room { get; set; } = new();
 
+    protected override void OnResize(ResizeEventArgs e)
+    {
+        base.OnResize(e);
+
+        var (left, bottom, width, height) = Room.Camera;
+        var cameraRatio = height / width;
+        var screenRatio = (decimal)ClientSize.Y / ClientSize.X;
+
+        if (cameraRatio <= screenRatio)
+        {
+            var viewportHeight = (int)(ClientSize.X * height / width);
+            GL.Viewport(0, (ClientSize.Y - viewportHeight) / 2, ClientSize.X, viewportHeight);
+        }
+        else
+        {
+            var viewportWidth = (int)(ClientSize.Y * width / height);
+            GL.Viewport((ClientSize.X - viewportWidth) / 2, 0, viewportWidth, ClientSize.Y);
+        }
+    }
+
     protected override void OnUpdateFrame(FrameEventArgs args)
     {
         base.OnUpdateFrame(args);
