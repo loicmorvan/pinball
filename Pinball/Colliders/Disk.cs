@@ -19,7 +19,7 @@ public record struct Disk(Vector P, decimal rD): ICollider
         var D = X + XP * sNorm * sNorm;
 
         var DP = P - D;
-        if (DP.GetNorm() >= rD)
+        if (DP.GetNorm() >= (r + rD))
         {
             return null;
         }

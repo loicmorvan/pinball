@@ -95,8 +95,9 @@ Algorithm:
 1. If $\vec{n}\cdot\vec{s}\ge0$ then the ball is moving away from the half-plane and there will be no collision.
 2. The point of collision at the surface of the ball before motion is:
    $$ C_B=X-r\vec{n} $$
-3. The real point of collision is:
+3. The point of collision on the half-plane is:
    $$ C=P+\left(\frac{C_B\wedge\vec{s}-P\wedge\vec{s}}{\vec{t}\wedge\vec{s}}\right)\vec{t} $$
+   > Note: At that point, we can detect that the ball is interpenetrated inside the half-plane when: $\overrightarrow{CC_B}\cdot\vec{n}<0$
 4. Normal is trivially $\vec{n}$
 5. Distance between the contact point on the ball and the contact point on the half-plane: 
    $$ d = ||\overrightarrow{CC_B}|| $$
@@ -114,7 +115,7 @@ Algorithm:
 1. If $\vec{s}\cdot\overrightarrow{XP}\le0$ then the ball is moving away from the disk.
 2. On the ray $(X;\vec{s})$, find the closest point $D$ to $P$:
    $$ D=X+\overrightarrow{XP}\cdot\overrightarrow{\lang s\rang}\times\overrightarrow{\lang s\rang} $$
-   If $||\overrightarrow{DP}||\ge r_\mathscr{D}$ then there will be no collision.
+   If $||\overrightarrow{DP}||\ge r+r_\mathscr{D}$ then there will be no collision.
 3. Compute the position of the ball when it is stopped along the ray $(X;\vec{s})$:
    $$ X_2=D-\sqrt{\left(r+r_\mathscr{D}\right)^2-\overrightarrow{DP}^2}\times \overrightarrow{\lang s\rang} $$
 4. Compute the normal of collision:
