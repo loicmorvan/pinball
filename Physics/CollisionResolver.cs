@@ -19,48 +19,22 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Pinball.Interfaces;
-using Pinball.Math;
+using Physics.Colliders;
 
-namespace Pinball;
+namespace Physics;
 
-public record Point(Vector P, decimal c): ICollider
+public class CollisionResolver : ICollisionResolver
 {
-    public Collision? Detect(Ball ball, decimal Δt)
+    public Ball ResolveCollision(Ball ball, decimal Δt, Collision collision)
     {
         var (s, X, r) = ball;
+        var (δt, P, n, c) = collision;
 
-        if (s.GetNorm() == 0)
-        {
-            return null;
-        }
-
-        var n = s.Normalize();
-        var XP = P - X;
-        if (XP * n <= 0)
-        {
-            return null;
-        }
-
+        var XC = P + r * n;
         var t = n.Rotate90CW();
-        var XC_t = XP * t;
+        s = s * t * t - c * (s * n) * n;
+        X = XC + (Δt - δt) * s;
 
-        if (XC_t <= -r || XC_t >= r)
-        {
-            return null;
-        }
-
-        var XC_n = DecimalEx.Sqrt(r * r - XC_t * XC_t);
-        var XC = XC_t * t + XC_n * n;
-        var d = (XP - XC).GetNorm();
-        var δt = d / s.GetNorm();
-        if (δt >= Δt)
-        {
-            return null;
-        }
-
-        var N = -XC.Normalize();
-
-        return new Collision(δt, P, N, c);
+        return ball with { s = s, X = X };
     }
 }

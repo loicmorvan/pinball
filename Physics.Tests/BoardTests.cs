@@ -19,10 +19,10 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Pinball.Impl;
-using Pinball.Math;
+using Physics.Colliders;
+using Physics.Math;
 
-namespace Pinball.Tests;
+namespace Physics.Tests;
 
 public class BoardTests
 {

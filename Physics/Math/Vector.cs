@@ -19,7 +19,8 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace Pinball.Math;
+namespace Physics.Math;
+
 public record struct Vector(decimal X, decimal Y)
 {
     public static decimal operator ^(in Vector left, in Vector right)

@@ -19,34 +19,41 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Pinball.Math;
+using Physics.Math;
 
-namespace Pinball.Tests;
+namespace Physics.Colliders;
 
-public class PointColliderTests
+public record struct Disk(Vector P, decimal rD, decimal c) : ICollider
 {
-    [Fact]
-    public void DetectCollisionWithPointTest()
+    public Collision? Detect(Ball ball, decimal Δt)
     {
-        var sut = new Point(new(0, 0.5m), 1);
-        var ball = new Ball(new(0, 1), 0, 0.25m);
+        var (s, X, r) = ball;
 
-        var result = sut.Detect(ball, 1);
+        var XP = P - X;
+        if (s * XP <= 0)
+        {
+            return null;
+        }
 
-        Assert.NotNull(result);
-        Assert.Equal(0.25m, result!.δt);
-        Assert.Equal(new Vector(0, 0.5m), result.p);
-        Assert.Equal(new Vector(0, -1), result.N);
-    }
+        var sNorm = s.Normalize();
+        var D = X + XP * sNorm * sNorm;
 
-    [Fact]
-    public void Bug()
-    {
-        var sut = new Point(new(0, -1), 1);
-        var ball = new Ball(new(0, -3.6m), new(0, -0.684m), 0.25m);
+        var DP = P - D;
+        if (DP.GetNorm() >= r + rD)
+        {
+            return null;
+        }
 
-        var result = sut.Detect(ball, 0.02m);
+        var X2 = D - DecimalEx.Sqrt((r + rD) * (r + rD) - DP * DP) * sNorm;
+        var n = (X2 - P).Normalize();
+        var C = P + rD * n;
 
-        result.Should().NotBeNull();
+        var δt = (X2 - X).GetNorm() / s.GetNorm();
+        if (δt >= Δt)
+        {
+            return null;
+        }
+
+        return new Collision(δt, C, n, c);
     }
 }

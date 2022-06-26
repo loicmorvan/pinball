@@ -19,22 +19,12 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Engine;
+namespace Physics.Math;
 
-namespace Pinball.Exe;
-
-public class Ball: GameObject
+public static class DecimalEx
 {
-    private readonly Pinball.Board board;
-
-    public Ball(Pinball.Board board)
+    public static decimal Sqrt(decimal value)
     {
-        this.board = board;
-    }
-
-    protected override void Step(decimal Δt)
-    {
-        X = board.Ball.X.X;
-        Y = board.Ball.X.Y;
+        return (decimal)System.Math.Sqrt((double)value);
     }
 }

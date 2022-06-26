@@ -19,9 +19,6 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Graphics.Implementations;
-using Graphics.Interfaces;
-
 namespace Engine.Graphics;
 
 public class TextureRepository : ITextureRepository

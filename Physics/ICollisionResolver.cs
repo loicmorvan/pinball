@@ -19,22 +19,11 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Pinball.Interfaces;
+using Physics.Colliders;
 
-namespace Pinball.Impl;
+namespace Physics;
 
-public class CollisionResolver : ICollisionResolver
+public interface ICollisionResolver
 {
-    public Ball ResolveCollision(Ball ball, decimal Δt, Collision collision)
-    {
-        var (s, X, r) = ball;
-        var (δt, P, n, c) = collision;
-
-        var XC = P + r * n;
-        var t = n.Rotate90CW();
-        s = s * t * t - c * (s * n) * n;
-        X = XC + (Δt - δt) * s;
-
-        return ball with { s = s, X = X };
-    }
+    Ball ResolveCollision(Ball ball, decimal Δt, Collision collision);
 }

@@ -19,11 +19,10 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Graphics.Interfaces;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 
-namespace Graphics.Implementations;
+namespace Engine.Graphics;
 
 public sealed class Program : IProgram, IDisposable
 {
@@ -49,7 +48,7 @@ public sealed class Program : IProgram, IDisposable
     }
 
     public Program(string vertexShaderResourceName, string fragmentShaderResourceName, IShaderFactory shaderFactory)
-        :this (shaderFactory.CreateShader(ShaderType.VertexShader, vertexShaderResourceName), shaderFactory.CreateShader(ShaderType.FragmentShader, fragmentShaderResourceName))
+        : this(shaderFactory.CreateShader(ShaderType.VertexShader, vertexShaderResourceName), shaderFactory.CreateShader(ShaderType.FragmentShader, fragmentShaderResourceName))
     { }
 
     public void Use()

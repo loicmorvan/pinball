@@ -19,10 +19,9 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Graphics.Interfaces;
 using System.Reflection;
 
-namespace Graphics.Implementations;
+namespace Engine.Graphics;
 
 public class AssemblyResourceRepository : IResourceRepository
 {

@@ -19,11 +19,9 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Graphics.Implementations;
-using Graphics.Interfaces;
 using OpenTK.Graphics.OpenGL4;
 
-namespace Engine;
+namespace Engine.Graphics;
 
 public class ShaderFactory : IShaderFactory
 {

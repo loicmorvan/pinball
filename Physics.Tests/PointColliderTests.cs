@@ -19,33 +19,35 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Pinball.Interfaces;
-using Pinball.Math;
+using Physics.Colliders;
+using Physics.Math;
 
-namespace Pinball;
+namespace Physics.Tests;
 
-public record struct HalfPlane(Vector p, Vector n, decimal c) : ICollider
+public class PointColliderTests
 {
-    public Collision? Detect(Ball ball, decimal Δt)
+    [Fact]
+    public void DetectCollisionWithPointTest()
     {
-        var (s, x, r) = ball;
+        var sut = new Point(new(0, 0.5m), 1);
+        var ball = new Ball(new(0, 1), 0, 0.25m);
 
-        if (n * s >= 0)
-        {
-            return null;
-        }
+        var result = sut.Detect(ball, 1);
 
-        var C_B = x - r * n;
-        var t = n.Rotate90CW();
-        var C = p + ((C_B ^ s) - (p ^ s)) / (t ^ s) * t;
+        Assert.NotNull(result);
+        Assert.Equal(0.25m, result!.δt);
+        Assert.Equal(new Vector(0, 0.5m), result.p);
+        Assert.Equal(new Vector(0, -1), result.N);
+    }
 
-        var d = (C_B - C).GetNorm();
-        var δt = d / s.GetNorm();
-        if (δt >= Δt)
-        {
-            return null;
-        }
+    [Fact]
+    public void Bug()
+    {
+        var sut = new Point(new(0, -1), 1);
+        var ball = new Ball(new(0, -3.6m), new(0, -0.684m), 0.25m);
 
-        return new Collision(δt, C, n, c);
+        var result = sut.Detect(ball, 0.02m);
+
+        result.Should().NotBeNull();
     }
 }
