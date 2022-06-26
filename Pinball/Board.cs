@@ -21,12 +21,12 @@ public class Board
 
     public void Step(decimal Δt)
     {
-        var (s, x, r) = Ball;
+        var (s, X, r) = Ball;
 
         var a = g;
         s += Δt * a;
 
-        var ball = new Ball(s, x, r);
+        var ball = new Ball(s, X, r);
 
         bool hasCollided = false;
         
@@ -35,16 +35,16 @@ public class Board
             var collision = collider.Detect(ball, Δt);
             if (collision != null)
             {
-                Δt = Δt - collision.δt;
                 Ball = collisionResolver.ResolveCollision(ball, Δt, collision);
+                Δt = Δt - collision.δt;
                 hasCollided = true;
             }
         }
 
         if (!hasCollided)
         {
-            x += Δt * s;
-            Ball = ball with { x = x };
+            X += Δt * s;
+            Ball = ball with { X = X };
         }
     }
 }

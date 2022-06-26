@@ -8,8 +8,8 @@ public class PointColliderTests
     [Fact]
     public void DetectCollisionWithPointTest()
     {
-        var sut = new Point(new Vector(0, 0.5m));
-        var ball = new Ball(new Vector(0, 1), 0, 0.25m);
+        var sut = new Point(new(0, 0.5m), 1);
+        var ball = new Ball(new(0, 1), 0, 0.25m);
 
         var result = sut.Detect(ball, 1);
 
@@ -22,7 +22,7 @@ public class PointColliderTests
     [Fact]
     public void Bug()
     {
-        var sut = new Point(new(0, -1));
+        var sut = new Point(new(0, -1), 1);
         var ball = new Ball(new(0, -3.6m), new(0, -0.684m), 0.25m);
 
         var result = sut.Detect(ball, 0.02m);

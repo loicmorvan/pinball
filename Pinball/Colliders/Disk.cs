@@ -3,7 +3,7 @@ using Pinball.Math;
 
 namespace Pinball;
 
-public record struct Disk(Vector P, decimal rD): ICollider
+public record struct Disk(Vector P, decimal rD, decimal c): ICollider
 {
     public Collision? Detect(Ball ball, decimal Δt)
     {
@@ -34,6 +34,6 @@ public record struct Disk(Vector P, decimal rD): ICollider
             return null;
         }
 
-        return new Collision(δt, C, n);
+        return new Collision(δt, C, n, c);
     }
 }

@@ -3,7 +3,7 @@ using Pinball.Math;
 
 namespace Pinball;
 
-public record struct HalfPlane(Vector p, Vector n) : ICollider
+public record struct HalfPlane(Vector p, Vector n, decimal c) : ICollider
 {
     public Collision? Detect(Ball ball, decimal Δt)
     {
@@ -14,17 +14,17 @@ public record struct HalfPlane(Vector p, Vector n) : ICollider
             return null;
         }
 
-        var cB = x - r * n;
+        var C_B = x - r * n;
         var t = n.Rotate90CW();
-        var c = p + ((cB ^ s) - (p ^ s)) / (t ^ s) * t;
+        var C = p + ((C_B ^ s) - (p ^ s)) / (t ^ s) * t;
 
-        var d = (cB - c).GetNorm();
+        var d = (C_B - C).GetNorm();
         var δt = d / s.GetNorm();
         if (δt >= Δt)
         {
             return null;
         }
 
-        return new Collision(δt, c, n);
+        return new Collision(δt, C, n, c);
     }
 }

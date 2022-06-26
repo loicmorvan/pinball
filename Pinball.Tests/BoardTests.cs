@@ -13,7 +13,7 @@ public class BoardTests
         sut.Step(1m);
 
         Assert.Equal(new Vector(0, -10), sut.Ball.s);
-        Assert.Equal(new Vector(0, -10), sut.Ball.x);
+        Assert.Equal(new Vector(0, -10), sut.Ball.X);
     }
 
     [Fact]
@@ -21,10 +21,10 @@ public class BoardTests
     {
         var sut = new Board(new CollisionResolver());
         sut.Ball = new(new(0, -3.6m), new(0, -0.684m), 0.25m);
-        sut.Colliders = new[] { new Point(new(0, -1)) };
+        sut.Colliders = new[] { new Point(new(0, -1), 1) };
 
         sut.Step(0.02m);
 
-        sut.Ball.x.Y.Should().BeGreaterThan(-0.75m);
+        sut.Ball.X.Y.Should().BeGreaterThan(-0.75m);
     }
 }

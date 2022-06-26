@@ -58,7 +58,7 @@ Collisions should be detected between $X_i$ and $X_{i+1}$.
 
 We assume that there is no interpenetration at time $t_i$, at most the ball is touching a collider, which may be resolve as a collision with $\delta t=0$.
 
-If a collision is detected, then the speed $\vec{s}_{i+1}$ and the position $X_{i+1}$ needs to be changed, and the contact point $C$, the time to collision $\delta t$ and the normal $\vec{n}$ of the collider at $C$ should be returned in order to allow the collision reaction algorithm to be executed.
+If a collision is detected, then the speed $\vec{s}_{i+1}$ and the position $X_{i+1}$ needs to be changed, and the contact point $C$, the time to collision $\delta t$, the restitution coefficient $c$ and the normal $\vec{n}$ of the collider at $C$ should be returned in order to allow the collision reaction algorithm to be executed.
 
 ### 4.1. When collider is a point
 

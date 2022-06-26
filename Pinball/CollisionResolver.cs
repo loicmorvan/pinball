@@ -6,15 +6,14 @@ public class CollisionResolver : ICollisionResolver
 {
     public Ball ResolveCollision(Ball ball, decimal Δt, Collision collision)
     {
-        var (s, x, r) = ball;
-        var (δt, p, N) = collision;
-        var C = 0.5m;
+        var (s, X, r) = ball;
+        var (δt, P, n, c) = collision;
 
-        var xc = p + r * N;
-        var T = N.Rotate90CW();
-        s = s * T * T - C * (s * N) * N;
-        x = xc + (Δt - δt) * s;
+        var XC = P + r * n;
+        var t = n.Rotate90CW();
+        s = s * t * t - c * (s * n) * n;
+        X = XC + (Δt - δt) * s;
 
-        return ball with { s = s, x = x };
+        return ball with { s = s, X = X };
     }
 }

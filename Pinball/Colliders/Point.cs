@@ -3,11 +3,11 @@ using Pinball.Math;
 
 namespace Pinball;
 
-public record Point(Vector p): ICollider
+public record Point(Vector P, decimal c): ICollider
 {
     public Collision? Detect(Ball ball, decimal Δt)
     {
-        var (s, x, r) = ball;
+        var (s, X, r) = ball;
 
         if (s.GetNorm() == 0)
         {
@@ -15,31 +15,31 @@ public record Point(Vector p): ICollider
         }
 
         var n = s.Normalize();
-        var xp = p - x;
-        if (xp * n <= 0)
+        var XP = P - X;
+        if (XP * n <= 0)
         {
             return null;
         }
 
         var t = n.Rotate90CW();
-        var xct = xp * t;
+        var XC_t = XP * t;
 
-        if (xct <= -r || xct >= r)
+        if (XC_t <= -r || XC_t >= r)
         {
             return null;
         }
 
-        var xcn = DecimalEx.Sqrt(r * r - xct * xct);
-        var xc = xct * t + xcn * n;
-        var d = (xp - xc).GetNorm();
+        var XC_n = DecimalEx.Sqrt(r * r - XC_t * XC_t);
+        var XC = XC_t * t + XC_n * n;
+        var d = (XP - XC).GetNorm();
         var δt = d / s.GetNorm();
         if (δt >= Δt)
         {
             return null;
         }
 
-        var N = -xc.Normalize();
+        var N = -XC.Normalize();
 
-        return new Collision(δt, p, N);
+        return new Collision(δt, P, N, c);
     }
 }
