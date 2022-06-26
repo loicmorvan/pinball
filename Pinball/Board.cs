@@ -5,10 +5,14 @@ namespace Pinball;
 
 public class Board
 {
+    private readonly decimal targetTimestep;
+    private decimal elapsedTime;
+
     private readonly ICollisionResolver collisionResolver;
 
-    public Board(ICollisionResolver collisionResolver)
+    public Board(decimal targetTimestep, ICollisionResolver collisionResolver)
     {
+        this.targetTimestep = targetTimestep;
         this.collisionResolver = collisionResolver;
     }
 
@@ -21,30 +25,39 @@ public class Board
 
     public void Step(decimal Δt)
     {
-        var (s, X, r) = Ball;
+        elapsedTime += Δt;
 
-        var a = g;
-        s += Δt * a;
-
-        var ball = new Ball(s, X, r);
-
-        bool hasCollided = false;
-        
-        foreach (var collider in Colliders)
+        while (elapsedTime >= targetTimestep)
         {
-            var collision = collider.Detect(ball, Δt);
-            if (collision != null)
+            var iterationTime = targetTimestep;
+
+            var (s, X, r) = Ball;
+
+            var a = g;
+            s += iterationTime * a;
+
+            var ball = new Ball(s, X, r);
+
+            bool hasCollided = false;
+            
+            foreach (var collider in Colliders)
             {
-                Ball = collisionResolver.ResolveCollision(ball, Δt, collision);
-                Δt = Δt - collision.δt;
-                hasCollided = true;
+                var collision = collider.Detect(ball, iterationTime);
+                if (collision != null)
+                {
+                    Ball = collisionResolver.ResolveCollision(ball, iterationTime, collision);
+                    iterationTime -= collision.δt;
+                    hasCollided = true;
+                }
             }
-        }
 
-        if (!hasCollided)
-        {
-            X += Δt * s;
-            Ball = ball with { X = X };
+            if (!hasCollided)
+            {
+                X += iterationTime * s;
+                Ball = ball with { X = X };
+            }
+
+            elapsedTime -= targetTimestep;
         }
     }
 }
