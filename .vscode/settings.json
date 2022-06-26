@@ -3,5 +3,7 @@
     "files.exclude": {
         "**/bin": true,
         "**/obj": true
-    }
+    },
+    "copyrightInserter.holder": "Loïc Morvan",
+    "copyrightInserter.license": "mit"
 }
