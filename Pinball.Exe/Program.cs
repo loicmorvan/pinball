@@ -3,7 +3,7 @@ using Pinball;
 using Pinball.Impl;
 using Pinball.Interfaces;
 
-var board = new Board(new CollisionResolver());
+var board = new Board(0.01m, new CollisionResolver());
 board.Ball = new(new(0.1m, 0), new(0, 10), 0.25m);
 board.Colliders = new ICollider[]
 {
