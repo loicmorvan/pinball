@@ -1,4 +1,4 @@
-<!--
+/*
  Copyright (c) 2022 Loïc Morvan
 
  Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -17,28 +17,18 @@
  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- -->
+ */
 
-<Project Sdk="Microsoft.NET.Sdk">
+using Engine;
+using Physics.Colliders;
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+namespace Pinball;
 
-  <ItemGroup>
-    <PackageReference Include="OpenTK" Version="4.7.4" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources/**/*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Physics\Physics.csproj" />
-  </ItemGroup>
-
-</Project>
+public class Bumper: GameObject
+{
+    public Bumper(Physics.Board board)
+    {
+        Sprite = new Sprite("Pinball.Resources.Sample.png", 2, 2, 1, 1);
+        board.Colliders = board.Colliders.Append(new Disk(0, 1, 1.1m)).ToArray();
+    }
+}
