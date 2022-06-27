@@ -20,15 +20,19 @@
  */
 
 using Engine;
+using Physics;
 using Physics.Colliders;
+using Physics.Math;
 
 namespace Pinball;
 
 public class Bumper: GameObject
 {
-    public Bumper(Physics.Board board)
+    public Bumper(Physics.Board board, Vector position)
     {
+        X = position.X;
+        Y = position.Y;
         Sprite = new Sprite("Pinball.Resources.Sample.png", 2, 2, 1, 1);
-        board.Colliders = board.Colliders.Append(new Disk(0, 1, 1.1m)).ToArray();
+        board.Colliders = board.Colliders.Append((new Disk(position, 1, 1.2m), new CollisionResolver())).ToArray();
     }
 }

@@ -29,12 +29,9 @@ public class Board
     private readonly decimal targetTimestep;
     private decimal elapsedTime;
 
-    private readonly ICollisionResolver collisionResolver;
-
-    public Board(decimal targetTimestep, ICollisionResolver collisionResolver)
+    public Board(decimal targetTimestep)
     {
         this.targetTimestep = targetTimestep;
-        this.collisionResolver = collisionResolver;
     }
 
     // For now, gravity is constant, but should be dependent upon Ball.Position.
@@ -42,7 +39,7 @@ public class Board
 
     public Ball Ball { get; set; } = new Ball(0, 0, 0.25m);
 
-    public ICollider[] Colliders { get; set; } = Array.Empty<ICollider>();
+    public (ICollider, ICollisionResolver)[] Colliders { get; set; } = Array.Empty<(ICollider, ICollisionResolver)>();
 
     public void Step(decimal Δt)
     {
@@ -61,12 +58,12 @@ public class Board
 
             bool hasCollided = false;
 
-            foreach (var collider in Colliders)
+            foreach (var (collider, resolver) in Colliders)
             {
                 var collision = collider.Detect(ball, iterationTime);
                 if (collision != null)
                 {
-                    Ball = collisionResolver.ResolveCollision(ball, iterationTime, collision);
+                    Ball = resolver.ResolveCollision(ball, iterationTime, collision);
                     iterationTime -= collision.δt;
                     hasCollided = true;
                 }

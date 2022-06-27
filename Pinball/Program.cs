@@ -26,18 +26,24 @@ using Physics;
 using Physics.Colliders;
 using Pinball;
 
-var board = new Physics.Board(0.01m, new CollisionResolver());
+var board = new Physics.Board(0.01m);
 board.Ball = new(new(0.1m, 0), new(0, 10), 0.25m);
-board.Colliders = new ICollider[]
+var resolver = new CollisionResolver();
+board.Colliders = new (ICollider, ICollisionResolver)[]
 {
-    new HalfPlane(0, new(0, 1), 0.9m),
-    new HalfPlane(new(10m, 0), new(-1, 0), 0.9m),
-    new HalfPlane(new(-10m, 0), new(1, 0), 0.9m)
+    (new HalfPlane(0, new(0, 1), 0.9m), resolver),
+    (new HalfPlane(new(10m, 0), new(-1, 0), 0.9m), resolver),
+    (new HalfPlane(new(-10m, 0), new(1, 0), 0.9m), resolver)
 };
 
 var window = new Window(new AssemblyResourceRepository(Assembly.GetExecutingAssembly()));
 window.Room.Camera = new(-10, 0, 20, 10);
 window.Room.GameObjects.Add(new Pinball.Board(board));
-window.Room.GameObjects.Add(new Bumper(board));
+window.Room.GameObjects.Add(new Bumper(board, new(0, 0)));
+window.Room.GameObjects.Add(new Bumper(board, new(1, 1)));
+window.Room.GameObjects.Add(new Bumper(board, new(2, 2)));
+window.Room.GameObjects.Add(new Bumper(board, new(3, 3)));
+window.Room.GameObjects.Add(new Bumper(board, new(4, 4)));
+window.Room.GameObjects.Add(new Bumper(board, new(5, 5)));
 window.Room.GameObjects.Add(new Pinball.Ball(board) { Sprite = new("Pinball.Resources.Sample.png", 0.5m, 0.5m, 0.25m, 0.25m) });
 window.Run();

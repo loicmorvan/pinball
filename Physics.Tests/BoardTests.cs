@@ -29,7 +29,7 @@ public class BoardTests
     [Fact]
     public void Test1()
     {
-        var sut = new Board(1m, new CollisionResolver());
+        var sut = new Board(1m);
 
         sut.Step(1m);
 
@@ -40,9 +40,9 @@ public class BoardTests
     [Fact]
     public void Bug()
     {
-        var sut = new Board(0.02m, new CollisionResolver());
+        var sut = new Board(0.02m);
         sut.Ball = new(new(0, -3.6m), new(0, -0.684m), 0.25m);
-        sut.Colliders = new[] { new Point(new(0, -1), 1) };
+        sut.Colliders = new (ICollider, ICollisionResolver)[] { (new Point(new(0, -1), 1), new CollisionResolver()) };
 
         sut.Step(0.02m);
 
