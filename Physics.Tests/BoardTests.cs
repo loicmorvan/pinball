@@ -42,7 +42,7 @@ public class BoardTests
     {
         var sut = new Board(0.02m);
         sut.Ball = new(new(0, -3.6m), new(0, -0.684m), 0.25m);
-        sut.Colliders = new (ICollider, ICollisionResolver)[] { (new Point(new(0, -1), 1), new CollisionResolver()) };
+        sut.Colliders = new (ICollider, ICollisionResolver)[] { (new Point(new(0, -1), 1), new BounceResolver()) };
 
         sut.Step(0.02m);
 

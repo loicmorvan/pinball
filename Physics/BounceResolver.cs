@@ -23,7 +23,7 @@ using Physics.Colliders;
 
 namespace Physics;
 
-public class CollisionResolver : ICollisionResolver
+public class BounceResolver : ICollisionResolver
 {
     public Ball ResolveCollision(Ball ball, decimal Δt, Collision collision)
     {

@@ -21,21 +21,27 @@
 
 using Physics.Colliders;
 
-namespace Physics.Tests;
+namespace Physics;
 
-public class CollisionResolverTests
+public class ThrowResolver : ICollisionResolver
 {
-    [Fact]
-    public void Test()
+    private readonly decimal contactSpeed;
+
+    public ThrowResolver(decimal contactSpeed)
     {
-        var ball = new Ball(new(0, -1), 0, 0.25m);
-        var collision = new Collision(0.5m, new(0, -0.75m), new(0, 1), 1);
-        var sut = new BounceResolver();
+        this.contactSpeed = contactSpeed;
+    }
 
-        var result = sut.ResolveCollision(ball, 1, collision);
+    public Ball ResolveCollision(Ball ball, decimal Δt, Collision collision)
+    {
+        var (s, X, r) = ball;
+        var (δt, P, n, _) = collision;
 
-        Assert.NotNull(result);
-        Assert.Equal(new(0, 1), result.s);
-        Assert.Equal(0, result.X);
+        var XC = P + r * n;
+        var t = n.Rotate90CW();
+        s = s * t * t + contactSpeed * n;
+        X = XC + (Δt - δt) * s;
+
+        return ball with { s = s, X = X };
     }
 }
