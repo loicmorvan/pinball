@@ -9,7 +9,9 @@ Documentation about simulating a Pinball game.
   - [4.1. When collider is a point](#41-when-collider-is-a-point)
   - [4.2. When collider is a half-plane](#42-when-collider-is-a-half-plane)
   - [4.3. When collider is a disk](#43-when-collider-is-a-disk)
-- [5. Continuous collision reaction](#5-continuous-collision-reaction)
+- [5. Collision reaction](#5-collision-reaction)
+  - [5.1. Bounce resolver](#51-bounce-resolver)
+  - [5.2. Throw resolver](#52-throw-resolver)
 - [6. After the collision](#6-after-the-collision)
 
 ## 1. Conventions and notations
@@ -123,7 +125,7 @@ Algorithm:
 5. Compute the contact point:
    $$ C=X_2-r\vec{n}=P+r_\mathscr{D}\vec{n} $$
 
-## 5. Continuous collision reaction
+## 5. Collision reaction
 
 The collision detection algorithms should provide multiple data:
 - collision or not;
@@ -132,7 +134,11 @@ The collision detection algorithms should provide multiple data:
 - normal of the surface at collision point, $\vec{n}$ with $||\vec{n}||=1$;
 - restitution coefficient of the surface at collision point, $c$.
 
-And we already know:
+### 5.1. Bounce resolver
+
+This is the most common collision reaction, the tengential speed is kept, and the normal speed is mirrored and multiplied by the restitution coefficient.
+
+We already know:
 - speed $\vec{s}_{N+1}$;
 - positions $X_N$ and $X_{N+1}$.
 
@@ -142,6 +148,23 @@ And we already know:
    $$ \vec{t}=[-\vec{n}_y;\vec{n}_x] $$
 3. "Mirror" the speed $\vec{s}_{i+1}$ on the surface, keeping the tengential component, but reflecting the normal one:
    $$ \vec{s}_{i+1}=(\vec{s}_{i+1}\cdot\vec{t})\vec{t} - c(\vec{s}_{i+1}\cdot\vec{n})\vec{n} $$
+4. Finish the Euler method:
+   $$ X_{i+1}=X_c+(\Delta t-\delta t)\cdot\vec{s}_{i+1} $$
+
+### 5.2. Throw resolver
+
+the tengential speed is kept, but the normal speed is mirrored and set to a predefined value $s_n$.
+
+We already know:
+- speed $\vec{s}_{N+1}$;
+- positions $X_N$ and $X_{N+1}$.
+
+1. Virtually move the ball to the collision point $t_i+\delta t$, it gives the new position:
+   $$ X_c=C+r\times\vec{n} $$
+2. Compute a tangent on the surface:
+   $$ \vec{t}=[-\vec{n}_y;\vec{n}_x] $$
+3. "Mirror" the speed $\vec{s}_{i+1}$ on the surface, keeping the tengential component, but reflecting the normal one:
+   $$ \vec{s}_{i+1}=(\vec{s}_{i+1}\cdot\vec{t})\vec{t} + s_n\cdot\vec{n} $$
 4. Finish the Euler method:
    $$ X_{i+1}=X_c+(\Delta t-\delta t)\cdot\vec{s}_{i+1} $$
 
