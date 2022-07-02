@@ -19,33 +19,6 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Physics.Math;
+namespace Physics.Math;
 
-namespace Physics.Colliders;
-
-public record struct HalfPlane(Vector p, Vector n, decimal c) : ICollider
-{
-    public Collision? Detect(Ball ball, decimal Δt)
-    {
-        var (s, x, r) = ball;
-
-        if (n * s >= 0)
-        {
-            return null;
-        }
-
-        var C_B = x - r * n;
-        var t = n.Rotate90CW();
-        var C = p + ((C_B ^ s) - (p ^ s)) / (t ^ s) * t;
-
-        var CC_B = C_B - C;
-        var d = CC_B.GetNorm();
-        var δt = d / s.GetNorm();
-        if (δt >= Δt)
-        {
-            return null;
-        }
-
-        return new Collision(δt, C, n, c);
-    }
-}
+public record struct HalfPlane(Vector Point, Vector Normal);

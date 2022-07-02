@@ -33,6 +33,6 @@ public class Bumper: GameObject
         X = position.X;
         Y = position.Y;
         Sprite = new Sprite("Pinball.Resources.Sample.png", 2, 2, 1, 1);
-        board.Colliders = board.Colliders.Append((new Disk(position, 1, 1.2m), new ThrowResolver(20))).ToArray();
+        board.Colliders = board.Colliders.Append((new Physics.Colliders.Disk(position, 1, 1.2m), new ThrowResolver(20))).ToArray();
     }
 }

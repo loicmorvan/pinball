@@ -30,7 +30,7 @@ public class HalfPinballColliderTests
     public void Test()
     {
         var ball = new Ball(new(0, -1), new(0, 1), 0.25m);
-        var sut = new HalfPlane(0, new(0, 1), 1);
+        var sut = new Colliders.HalfPlane(0, new(0, 1), 1);
 
         var result = sut.Detect(ball, 1);
 
