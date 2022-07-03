@@ -25,6 +25,13 @@ namespace Physics.Colliders;
 
 public record struct Disk(Vector P, decimal rD, decimal c) : ICollider
 {
+    public (decimal, Vector) GetDistanceTo(Ball ball)
+    {
+        return (
+            Math.CollisionDetector.Detect(new Math.Disk(P, rD), new Math.Disk(ball.X, ball.r)),
+            (ball.X - P).Normalize());
+    }
+
     public Collision? Detect(Ball ball, decimal Δt)
     {
         var (s, X, r) = ball;

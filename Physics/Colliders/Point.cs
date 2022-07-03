@@ -62,4 +62,9 @@ public record Point(Vector P, decimal c) : ICollider
 
         return new Collision(δt, P, N, c);
     }
+
+    public (decimal, Vector) GetDistanceTo(Ball ball)
+    {
+        return ((ball.X - P).GetNorm() - ball.r, (ball.X - P).Normalize());
+    }
 }
