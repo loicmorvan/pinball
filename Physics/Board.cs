@@ -64,6 +64,7 @@ public class Board
                 if (collision != null)
                 {
                     Ball = resolver.ResolveCollision(ball, iterationTime, collision);
+
                     iterationTime -= collision.δt;
                     hasCollided = true;
                 }
@@ -73,6 +74,15 @@ public class Board
             {
                 X += iterationTime * s;
                 Ball = ball with { X = X };
+            }
+
+            foreach (var (collider, resolver) in Colliders)
+            {
+                var (distance, normal) = collider.GetDistanceTo(Ball);
+                if (distance < 0) // Interpenetration
+                {
+                    Ball = Ball with { X = Ball.X - distance * normal };
+                }
             }
 
             elapsedTime -= targetTimestep;

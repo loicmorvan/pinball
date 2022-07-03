@@ -25,6 +25,11 @@ namespace Physics.Colliders;
 
 public record struct HalfPlane(Vector p, Vector n, decimal c) : ICollider
 {
+    public (decimal, Vector) GetDistanceTo(Ball ball)
+    {
+        return (CollisionDetector.Detect(new Math.Disk(ball.X, ball.r), new Math.HalfPlane(p, n)), n);
+    }
+
     public Collision? Detect(Ball ball, decimal Δt)
     {
         var (s, x, r) = ball;

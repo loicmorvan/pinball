@@ -19,9 +19,13 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+using Physics.Math;
+
 namespace Physics.Colliders;
 
 public interface ICollider
 {
     Collision? Detect(Ball ball, decimal Δt);
+
+    (decimal, Vector) GetDistanceTo(Ball ball);
 }

@@ -30,6 +30,6 @@ public static class CollisionDetector
 
     public static decimal Detect(in Disk disk, in HalfPlane halfPlane)
     {
-        return disk.Radius - (disk.Center - halfPlane.Point) * halfPlane.Normal;
+        return (disk.Center - halfPlane.Point) * halfPlane.Normal - disk.Radius;
     }
 }
